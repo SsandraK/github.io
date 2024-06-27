@@ -16,7 +16,6 @@ export async function fetchUser(jwt) {
 
         const data = await info.json();
         const userData = data.data.user[0] || null;
-        console.log('user:', userData)
         return userData;
     } catch (error) {
         console.log(error);
@@ -50,7 +49,6 @@ export async function fetchAuditsRatio() {
             return null;
         }
 
-        //   console.log('Response data:', data.data);
 
         const nonNullGrades = data.data.nonNullGrades || [];
         const nullGrades = data.data.nullGrades || [];
@@ -66,7 +64,6 @@ export async function fetchAuditsRatio() {
                 nonNullGradesData.push({
                     grade: audit.grade.toFixed(2),
                     path: audit.group.path,
-                    name: audit.result?.object?.name || 'N/A'
                 });
             }
         });
@@ -78,7 +75,6 @@ export async function fetchAuditsRatio() {
                 nullGradesData.push({
                     grade: null,
                     path: audit.group.path,
-                    name: audit.result?.object?.name || 'N/A'
                 });
             }
         });
@@ -123,14 +119,7 @@ export async function fetchBoard() {
         }
 
         const transactions = data.data.transaction || [];
-
-        let divPaths = [];
-        let piscineJsPaths = [];
-        let piscineGoPaths = [];
         const totalAmount = transactions.reduce((sum, transaction) => sum + transaction.amount, 0);
-
-        console.log('Transactions:', transactions);
-        console.log('Total amount:', totalAmount);
 
         let div01XP = 0;
         let piscineJsXP = 0;
@@ -149,10 +138,6 @@ export async function fetchBoard() {
         });
 
         div01XP = totalAmount - (piscineGoXP + piscineJsXP);
-
-        // console.log('Total div-01 XP:', div01XP);
-        // console.log('Total piscine-js XP:', piscineJsXP);
-        // console.log('Total piscine-go XP:', piscineGoXP);
 
         return { transactions, totalAmount, div01XP, piscineGoXP, piscineJsXP };
     } catch (error) {

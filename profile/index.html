@@ -27,16 +27,30 @@
         </button>
     </header>
     <div class="container1">
-        <div class="info-container">
-            <h1>User info</h1>
-            <img src="/profile/user.png" alt="User Image">
+        <div class="info-container" id="clickable-container">
+            <div class="inner-container front">
+                <h1>User info</h1>
+                <img src="/profile/user.png" alt="User Image" id="user-image">
+            </div>
+            <div class="inner-container back" id="user-info">
+            </div>
         </div>
-        <div class="wrapper-container">
-            <svg id="svg" width="600" height="500"></svg>
-            <div id="xpAmount"></div>
+        <div class="wrapper-container" id="audit-clickable-container">
+            <button id="receivedAuditsButton" class="audit-button">Received Audits</button>
+            <button id="doneAuditsButton" class="audit-button">Done Audits</button>
+            <button id="back" class="audit-button">Back</button>
+
+            <div class="inner-container front">
+                <svg id="svg" width="600" height="500"></svg>
+                <div id="xpAmount"></div>
+            </div>
+            <div class="inner-container back" id="audit-info">
+            </div>
         </div>
     </div>
+
     <div class="wrapper-container2">
+        <h2>Done Projects</h2>
         <div class="chart-container" id="chartContainer"></div>
         <div class="tooltip" id="tooltip"></div>
         <div class="chart-container" id="div01Chart"></div>

@@ -2,13 +2,12 @@
 import { fetchBoard } from "../query/fetch.js";
 import { createBarChart } from "../SVG/barChart.js";
 import { fetchUser } from "../query/fetch.js";
-import { createLineChart } from "../SVG/chart.js";
 
 export async function displayUserName() {
     try {
         const userData = await fetchUser();
         if (userData) {
-            const fullName = `${userData.firstName} ${userData.lastName}, ${userData.login}`;
+            const fullName = `${userData.firstName} ${userData.lastName}`;
             const userElement = document.getElementById('identification');
             if (userElement) {
                 userElement.textContent = fullName;
@@ -21,11 +20,57 @@ export async function displayUserName() {
     }
 }
 
+//UserInfo
+export async function displayUserInfo() {
+    const clickableContainer = document.getElementById('clickable-container');
+    if (!clickableContainer) {
+        console.error('Element with id "clickable-container" not found');
+        return;
+    }
 
+    clickableContainer.addEventListener('click', async function (event) {
+        event.preventDefault();
+        clickableContainer.classList.toggle('rotated');
+
+        try {
+            const info = await fetchUser();
+            if (info) {
+                const user = info.login;
+                const attrs = typeof info.attrs === 'string' ? JSON.parse(info.attrs) : info.attrs;
+                const tel = attrs.tel;
+                const email = attrs.email;
+                const country = attrs.country;
+                const city = attrs.addressCity;
+
+
+                const userInfoContainer = document.getElementById('user-info');
+                if (userInfoContainer) {
+                    userInfoContainer.innerHTML = `
+                        <p><strong>User:</strong> ${user}</p>
+                              <p><strong>Tel:</strong> ${tel}</p>
+                        <p><strong>Email:</strong> ${email}</p>
+                        <p><strong>Country:</strong> ${country}</p>
+                        <p><strong>City:</strong> ${city}</p>
+                    `;
+                }
+            } else {
+                console.error("Error: No user information found.");
+            }
+        } catch (error) {
+            console.error("Error in displayUserInfo function:", error);
+        }
+    });
+}
 
 export async function displayXpAmount(cx, cy, auditRatio) {
+
+    const clickableContainer = document.getElementById('audit-clickable-container');
+    if (!clickableContainer) {
+        console.error('Element with id "audit-clickable-container" not found');
+        return;
+    }
+
     try {
-        // Create a text element to display the auditRatio in the center of the donut
         const svgElement = document.getElementById('svg');
         if (!svgElement) {
             console.error('SVG element not found');
@@ -48,26 +93,59 @@ export async function displayXpAmount(cx, cy, auditRatio) {
 }
 
 
+const parseDate = dateString => {
+    if (!dateString) {
+        console.warn('Date string is undefined or null:', dateString);
+        return new Date(NaN);
+    }
+
+    const parsedDate = new Date(dateString);
+    if (isNaN(parsedDate)) {
+        const isoDateString = dateString.replace(' ', 'T') + 'Z';
+        const fallbackDate = new Date(isoDateString);
+        return fallbackDate;
+    }
+    return parsedDate;
+};
+
+
+
 export async function div01Chart() {
     const data = await fetchBoard();
     if (!data) return;
 
-    // Filter transactions to exclude specific paths
     const divPaths = data.transactions.filter(transaction =>
         !transaction.path.includes('/piscine-js/') &&
         !transaction.path.includes('/piscine-go/')
     );
 
-    // Modify data to include a shortened name property
-    const modifiedPaths = divPaths.map(path => {
-        const strippedPath = path.path.replace('/johvi/div-01/', ''); // Adjust as needed
+    const modifiedPaths = divPaths.map(transaction => {
+        const strippedPath = transaction.path.replace('/johvi/div-01/', '');
         const shortName = strippedPath.split('/').pop().substring(0, 10) + (strippedPath.length > 10 ? '...' : '');
+        const createdAt = parseDate(transaction.createdAt);
         return {
-            ...path,
+            ...transaction,
             path: strippedPath,
             shortName: shortName,
-            amount: path.amount // Assuming `amount` is the XP
+            createdAt: createdAt,
         };
+    });
+
+    // Sort the modifiedPaths 
+    modifiedPaths.sort((a, b) => {
+        const dateA = a.createdAt.getTime();
+        const dateB = b.createdAt.getTime();
+
+        if (dateA < dateB) return -1;
+        if (dateA > dateB) return 1;
+
+        if (a.amount < b.amount) return -1;
+        if (a.amount > b.amount) return 1;
+
+        if (a.shortName < b.shortName) return -1;
+        if (a.shortName > b.shortName) return 1;
+
+        return 0;
     });
 
     createBarChart('div01Chart', modifiedPaths, 'Div-01 XP');
@@ -76,32 +154,5 @@ export async function div01Chart() {
 
 
 
-export async function piscineJS() {
-    const data = await fetchBoard();
-    if (!data) return;
-    const piscineGoPaths = data.transactions.filter(transaction => transaction.path.includes('/piscine-js'));
-    createLineChart('piscineJsChart', piscineJsPaths, 'Piscine JS XP');
-}
 
 
-export async function piscineGo() {
-    const data = await fetchBoard();
-    if (!data) return;
-
-    const piscineGoPaths = data.transactions.filter(
-        transaction => transaction.path.includes('/piscine-go')
-    );
-
-    // Modify data to include a shortened name property and strip the beginning of the path
-    const modifiedPaths = piscineGoPaths.map(path => {
-        const strippedPath = path.path.replace('/johvi/piscine-go', ''); // Strip out the beginning part
-        const shortName = strippedPath.split('/').pop().substring(0, 10) + (strippedPath.length > 10 ? '...' : ''); // Shorten the name
-        return {
-            ...path,
-            path: strippedPath,
-            shortName: shortName
-        };
-    });
-
-    createBarChart('piscineGoChart', modifiedPaths, 'Piscine Go XP');
-}

@@ -25,11 +25,6 @@ export function createLineChart(elementId, data, title) {
 
     // X-axis (Path names)
     const xAxis = document.createElementNS(svgNS, "line");
-    // xAxis.setAttribute("x1", padding);
-    // xAxis.setAttribute("y1", chartHeight - padding);
-    // xAxis.setAttribute("x2", chartWidth - padding);
-    // xAxis.setAttribute("y2", chartHeight - padding);
-    // xAxis.setAttribute("stroke", "black");
     svg.appendChild(xAxis);
 
     // Add labels for Y axis (XP amounts)
@@ -47,11 +42,11 @@ export function createLineChart(elementId, data, title) {
 
     // Add label for Y axis at the end
     const yLabel = document.createElementNS(svgNS, "text");
-    yLabel.setAttribute("x", padding - 20); // Adjust as needed
-    yLabel.setAttribute("y", padding - 10); // Adjust as needed
+    yLabel.setAttribute("x", padding - 20);
+    yLabel.setAttribute("y", padding - 10);
     yLabel.setAttribute("text-anchor", "end");
     yLabel.setAttribute("dominant-baseline", "middle");
-    yLabel.textContent = "XP Amounts"; // Label for Y axis
+    yLabel.textContent = "XP Amounts";
     svg.appendChild(yLabel);
 
     // Add label for X axis at the end

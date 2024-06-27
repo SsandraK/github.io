@@ -1,4 +1,4 @@
-import { fetchUser } from "../query/fetch.js";
+import { fetchAuditsRatio, fetchUser } from "../query/fetch.js";
 import { displayXpAmount } from "../profile/display.js";
 
 function xpCircle(cx, cy, radius, data) {
@@ -60,7 +60,7 @@ export async function renderCircle() {
     ];
 
     const centerX = 300, centerY = 300;
-    const radius = 250;
+    const radius = 200;
     const colors = ['#3AE315', '#E33915'];
 
     const arr = xpCircle(centerX, centerY, radius, donutData);
@@ -87,7 +87,6 @@ export async function renderCircle() {
         svgElement.appendChild(pathElement);
     }
 
-    // Call displayXpAmount to show the total XP amount in the center of the donut
     displayXpAmount(centerX, centerY, user.auditRatio.toFixed(2));
 }
 
@@ -116,5 +115,113 @@ function hideTooltip() {
     const tooltip = document.getElementById('tooltip');
     if (tooltip) {
         tooltip.remove();
+    }
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('receivedAuditsButton').addEventListener('click', () => {
+        toggleRotation();
+        auditNames('received');
+
+    });
+    document.getElementById('doneAuditsButton').addEventListener('click', () => {
+        toggleRotation();
+        auditNames('done');
+
+    });
+    document.getElementById('back').addEventListener('click', () => {
+        toggleRotation();
+        renderCircle();
+    });
+});
+
+
+
+function toggleRotation() {
+    const container = document.getElementById('audit-clickable-container');
+    container.classList.toggle('rotated');
+}
+
+export async function auditNames(type) {
+    const clickableContainer = document.getElementById('audit-clickable-container');
+    if (!clickableContainer) {
+        console.error('Element with id "audit-clickable-container" not found');
+        return;
+    }
+
+    try {
+        const info = await fetchAuditsRatio();
+        if (info) {
+            let audits;
+            if (type === 'done') {
+                audits = info.nonNullGradesData
+                    .filter(audit => !audit.path.includes('piscine'))
+                    .map(audit => ({
+                        grade: audit.grade,
+                        path: audit.path.split('/').pop(),
+                        type: 'done'
+                    }));
+            } else {
+                audits = info.nullGradesData
+                    .filter(audit => !audit.path.includes('piscine'))
+                    .map(audit => ({
+                        grade: null,
+                        path: audit.path.split('/').pop(),
+                        type: 'received'
+                    }));
+            }
+
+            const auditInfoContainer = document.getElementById('audit-info');
+            if (auditInfoContainer) {
+                auditInfoContainer.innerHTML = '';
+
+                const svgNS = "http://www.w3.org/2000/svg";
+
+                audits.forEach(audit => {
+                    const barContainer = document.createElement('div');
+                    barContainer.classList.add('auditbar');
+
+                    const svg = document.createElementNS(svgNS, "svg");
+                    svg.setAttribute("width", "100%");
+                    svg.setAttribute("height", "30");
+
+                    if (audit.grade !== null) {
+                        const rect = document.createElementNS(svgNS, "rect");
+                        const barWidth = Math.min(audit.grade * 10, 100);
+                        rect.setAttribute("width", `${barWidth}%`);
+                        rect.setAttribute("height", "30");
+                        rect.setAttribute("fill", "steelblue");
+
+                        const text = document.createElementNS(svgNS, "text");
+                        text.setAttribute("x", "5");
+                        text.setAttribute("y", "20");
+                        text.setAttribute("fill", "white");
+                        text.setAttribute("font-size", "15px");
+                        text.textContent = audit.grade;
+
+                        svg.appendChild(rect);
+                        svg.appendChild(text);
+                    }
+
+                    const pathText = document.createElementNS(svgNS, "text");
+                    const xPosition = audit.grade !== null ? `${Math.min(audit.grade * 10, 100) + 2}%` : '0';
+
+                    pathText.setAttribute("x", xPosition);
+                    pathText.setAttribute("y", "20");
+                    pathText.setAttribute("fill", "white");
+                    pathText.setAttribute("font-size", "15px");
+                    pathText.textContent = audit.path;
+
+                    svg.appendChild(pathText);
+                    barContainer.appendChild(svg);
+                    auditInfoContainer.appendChild(barContainer);
+                });
+            } else {
+                console.error("Error: 'audit-info' container not found.");
+            }
+        }
+    } catch (error) {
+        console.error("Error in auditNames function:", error);
     }
 }

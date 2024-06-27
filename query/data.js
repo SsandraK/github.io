@@ -54,22 +54,12 @@ id
   }
 `;
 
-//example
-// export const userLevel = `
-// query event_user {
-//   event_user {
-//       level
-//     }
-//   }
-// `;
-
-
-
 export const xpBoardDiv01 = `
 query board {
-    progress {
-        path
-        isDone
+    progress  (order_by: {createdAt: asc}){
+    createdAt
+      path
+      isDone
         group {
             object {
              id

@@ -4,11 +4,6 @@ export async function handleLogin() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
-    if (!username || !password) {
-        alert('Please enter email (or username) and password.');
-        return;
-    }
-
     try {
         const { query, creds } = credentialsQuery(username, password);
         const userCredentials = btoa(`${username}:${password}`);
@@ -24,7 +19,7 @@ export async function handleLogin() {
 
         if (!response.ok) {
             const errorMessage = getErrorMessage(response.status);
-            alert(errorMessage);
+            showError(errorMessage);
             return;
         }
 
@@ -40,13 +35,22 @@ export async function handleLogin() {
     }
 }
 
+function showError(message) {
+    const error = document.getElementById('error-message');
+    error.innerHTML = `${message} <button id='error-btn'>OK</button>`;
+    error.style.display = "block";
+    document.getElementById('error-btn').addEventListener('click', () => {
+        error.style.display = 'none';
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+    });
+}
+
 function credentialsQuery(username, password) {
     const creds = {
         password: password,
     };
-
-    const query = loginQuery(username); // Pass username to loginQuery
-
+    const query = loginQuery(username);
     return { query, creds };
 }
 
@@ -89,3 +93,4 @@ function getErrorMessage(status) {
             return "An error occurred during login.";
     }
 }
+

@@ -1,8 +1,9 @@
-import { div01Chart } from "./display.js";
-import { renderCircle } from "../SVG/audit.js";
+import { displayUserInfo, div01Chart } from "./display.js";
+import { auditNames, renderCircle } from "../SVG/audit.js";
 import { setupLogout } from "../loginPage/login.js";
 import { fetchAuditsRatio } from "../query/fetch.js";
 import { displayUserName } from "./display.js";
+
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -13,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
             setupLogout();
         });
     }
+
 });
 
 
@@ -22,10 +24,9 @@ export async function profilePage() {
     setupLogout();
     window.onload = displayUserName;
     fetchAuditsRatio();
+    await displayUserInfo();
     await renderCircle();
-    //   await div01Chart();
     await div01Chart();
-
 
 }
 
