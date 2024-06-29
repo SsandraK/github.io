@@ -97,6 +97,8 @@ body {
     cursor: pointer;
     align-items: center;
     perspective: 1000px;
+    overflow: scroll;
+}
 }
 
 .info-container img {
