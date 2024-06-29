@@ -60,7 +60,7 @@ export async function renderCircle() {
     ];
 
     const centerX = 300, centerY = 300;
-    const radius = 200;
+    const radius = 150;
     const colors = ['#3AE315', '#E33915'];
 
     const arr = xpCircle(centerX, centerY, radius, donutData);
