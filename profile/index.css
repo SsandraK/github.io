@@ -6,7 +6,7 @@
 }
 
 h1 {
-    font-size: 45px;
+    font-size: 40px;
     padding: 35px;
     color: white;
 }
@@ -87,11 +87,11 @@ body {
 
 .info-container {
     width: 35%;
-    padding: 50px;
+    padding: 40px;
     background: rgba(0, 0, 0, 0.3);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
     display: flex;
-    margin: 15px;
+    margin: 10px;
     flex-direction: column;
     height: auto;
     justify-content: space-between;
@@ -101,8 +101,8 @@ body {
 }
 
 .info-container img {
-    padding: 30px;
-    height: 400px;
+    padding: 25px;
+    height: 350px;
     align-items: center;
 }
 
@@ -188,7 +188,7 @@ body {
 }
 
 .inner-container {
-    font-size: 30px;
+    font-size: 20px;
     color: white;
     padding: 15px;
     width: 100%;
