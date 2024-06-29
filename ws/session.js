@@ -11,7 +11,7 @@ export function isUserLoggedIn(address) {
     const token = localStorage.getItem('jwtToken');
     if (!token) {
         if (address === 'profile') {
-            window.location.href = 'index.html';
+              window.location.href = 'profile.html';
         }
         return false;
     }
@@ -22,7 +22,7 @@ export function isUserLoggedIn(address) {
     if (parsedToken.exp <= currentTime) {
         endSession();
         if (address === 'profile') {
-            window.location.href = 'index.html';
+           window.location.href = './profile.html';
         }
         return false;
     }
@@ -32,12 +32,12 @@ export function isUserLoggedIn(address) {
 
 export function endSession() {
     localStorage.removeItem('jwtToken');
-    window.location.href = 'login.html';
+   window.location.href = './index.html';
 }
 
 // In login.html, check if the user is logged in and redirect to profile.html if true
 export function loginTokenCheck() {
     if (isUserLoggedIn()) {
-        window.location.href = 'profile.html';
+     window.location.href = './index.html';
     }
 }
