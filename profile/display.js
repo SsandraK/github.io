@@ -46,11 +46,11 @@ export async function displayUserInfo() {
                 const userInfoContainer = document.getElementById('user-info');
                 if (userInfoContainer) {
                     userInfoContainer.innerHTML = `
-                        <p><strong>User:</strong> ${user}</p>
-                              <p><strong>Tel:</strong> ${tel}</p>
-                        <p><strong>Email:</strong> ${email}</p>
-                        <p><strong>Country:</strong> ${country}</p>
-                        <p><strong>City:</strong> ${city}</p>
+                        <p><strong>User: ${user}</p>
+                              <p><strong>Tel: ${tel}</p>
+                        <p><strong>Email: ${email}</p>
+                        <p><strong>Country: ${country}</p>
+                        <p><strong>City: ${city}</p>
                     `;
                 }
             } else {
@@ -95,7 +95,6 @@ export async function displayXpAmount(cx, cy, auditRatio) {
 
 const parseDate = dateString => {
     if (!dateString) {
-        console.warn('Date string is undefined or null:', dateString);
         return new Date(NaN);
     }
 
