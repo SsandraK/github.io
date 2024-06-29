@@ -86,7 +86,7 @@ body {
 
 .info-container {
     width: 35%;
-    padding: 50px;
+    padding: 40px;
     background: rgba(0, 0, 0, 0.3);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
     display: flex;
@@ -110,7 +110,7 @@ body {
     flex: 1;
     height: 700px;
     max-width: 800px;
-    margin: 15px;
+    margin: 10px;
     justify-content: space-between;
     align-items: flex-start;
     padding: 20px;
