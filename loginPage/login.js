@@ -28,7 +28,7 @@ export async function handleLogin() {
         console.log('Started session', startSession);
         const sessionData = localStorage.getItem('sessionData');
         console.log('Session data:', sessionData);
-        window.location.href = "/profile/index.html";
+           window.location.href = "profile.html";
     } catch (error) {
         console.error(error);
         alert('An error occurred. Please try again later.');
@@ -76,7 +76,7 @@ export function setupLogout() {
         logoutbtn.addEventListener('click', function (event) {
             event.preventDefault();
             endSession();
-            window.location.href = '/loginPage/login.html';
+             window.location.href = 'index.html';
         });
     }
 }
