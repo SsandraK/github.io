@@ -46,11 +46,11 @@ export async function displayUserInfo() {
                 const userInfoContainer = document.getElementById('user-info');
                 if (userInfoContainer) {
                     userInfoContainer.innerHTML = `
-                        <p><strong>User: ${user}</p>
-                              <p><strong>Tel: ${tel}</p>
-                        <p><strong>Email: ${email}</p>
-                        <p><strong>Country: ${country}</p>
-                        <p><strong>City: ${city}</p>
+                        <p>User: ${user}</p>
+                              <p>Tel: ${tel}</p>
+                        <p>Email: ${email}</p>
+                        <p>Country: ${country}</p>
+                        <p>City: ${city}</p>
                     `;
                 }
             } else {
