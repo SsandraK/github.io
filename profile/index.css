@@ -26,7 +26,7 @@ body {
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
-    background: url(/github.io/loginPage/bg.jpeg)no-repeat;
+    background: url(./github.io/loginPage/bg.jpeg)no-repeat;
     background-size: cover;
     background-position: center;
 }
