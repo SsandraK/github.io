@@ -87,7 +87,7 @@ body {
 
 .info-container {
     width: 35%;
-    padding: 40px;
+    padding: 35px;
     background: rgba(0, 0, 0, 0.3);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
     display: flex;
@@ -101,8 +101,8 @@ body {
 }
 
 .info-container img {
-    padding: 25px;
-    height: 350px;
+    padding: 20px;
+    height: 300px;
     align-items: center;
 }
 
