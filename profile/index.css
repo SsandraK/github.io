@@ -86,11 +86,11 @@ body {
 
 .info-container {
     width: 35%;
-    padding: 40px;
+    padding: 50px;
     background: rgba(0, 0, 0, 0.3);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
     display: flex;
-    margin: 15px;
+    margin: 5px;
     flex-direction: column;
     height: auto;
     justify-content: space-between;
@@ -99,14 +99,12 @@ body {
     perspective: 1000px;
 }
 
-}
-
 .info-container img {
-    padding: 30px;
+    padding: 25px;
     height: 350px;
     align-items: center;
-    object-fit: cover;
 }
+
 
 
 .wrapper-container {
