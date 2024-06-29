@@ -195,6 +195,7 @@ body {
     width: 100%;
     backface-visibility: hidden;
     transition: transform 1s;
+ overflow: scroll;
 }
 
 .front {
