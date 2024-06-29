@@ -105,6 +105,7 @@ body {
     padding: 30px;
     height: 350px;
     align-items: center;
+    object-fit: cover;
 }
 
 
