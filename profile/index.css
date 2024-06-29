@@ -187,9 +187,9 @@ body {
 }
 
 .inner-container {
-    font-size: 30px;
+    font-size: 25px;
     color: white;
-    padding: 15px;
+    padding: 10px;
     width: 100%;
     backface-visibility: hidden;
     transition: transform 1s;
